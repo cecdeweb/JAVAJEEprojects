@@ -10,6 +10,16 @@ package com.myexpoonline.store.core.entity;
  */
 public class Work {
     
+    public static int lastId;// lastId appartient à la classe
+    // il n'appartient pas aux objets que je vais créer à partir de la classe
+    
+    // il n'appartient pas aux objets que je vais créer à partir de la classe
+    // a chaque création objet ba j'ai lastId +1
+    // -> ca me permet d'avoir un suivi des id créé
+    // a chaque fois qu'on va créer une oeuvre ba lastId va être incrémenter de 1
+    // du coup je pourrai le récupérer pour savoir l'id que je dois setter pour mon nouvel objet
+
+    
     private int id;
     private String title;
     private Author author;
@@ -23,6 +33,7 @@ public class Work {
     
     public Work(String title){
         this.title = title;
+        lastId++;
     }
 
     public String getTitle() {

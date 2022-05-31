@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.myexpoonline.store.backoffice.controller;
+package com.mycompany.firstapp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,13 +11,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author CECILE
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "WorkSelectionServlet", urlPatterns = {"/work-selection"})
+public class WorkSelectionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,7 +29,7 @@ public class HomeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -36,10 +37,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");            
+            out.println("<title>Servlet WorkSelectionServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet WorkSelectionServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
             out.println("</html>");
         }
     }
@@ -56,20 +58,37 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // je récupère l'id sélectionnée depuis work-choice.html
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        // si y a déjà une session en cours il va la récupérer
+        // si non il va la créer        
+        HttpSession session = request.getSession();
+        
+        // obtenir mon numero de session
+        String nbrSession = session.getId();
+        
+        //alimenter la session
+        // ajouter l'id de l'oeuvre sélectionnée
+        session.setAttribute("work-number", id);
+        
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = response.getWriter();
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");            
+            out.println("<title>Validation avant paiement</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Galerie d'art - Gestion de la boutique</h1>");
-            out.println("<a href='add-work.html'>Ajouter une oeuvre</a>");
+            out.println("<h1>merci d'avoir choisi cette oeuvre ! ajout de l'oeuvre n°" + id + "</h1>");
+            out.println("<a href='pay-work.html'>Pay</a>");
+            out.println("<p>Voici votre numéro de session : " + nbrSession + "</p>");
             out.println("</body>");
             out.println("</html>");
-        }
+
+        
     }
 
     /**
