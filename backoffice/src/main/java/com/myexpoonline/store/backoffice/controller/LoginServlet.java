@@ -11,13 +11,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author CECILE
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,7 +29,7 @@ public class HomeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -36,10 +37,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");            
+            out.println("<title>Servlet LoginServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
             out.println("</html>");
         }
     }
@@ -56,20 +58,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Galerie d'art - Gestion de la boutique</h1>");
-            out.println("<a href='add-work.html'>Ajouter une oeuvre</a>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -83,10 +72,43 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+                
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        String firstName = "Cécile";
         
-        
+        HttpSession session = request.getSession();
+
+        session.setAttribute("firstName", firstName);
+
+        if(login.equals("admin") && password.equals("1234Admin")){
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Success connection</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h2>Bonjour " + firstName + "</h2>");
+            out.println("<h3>Vous êtes connecté !</h3>");
+            out.println("<h3>Accéder à la <a href='home'>Page d'accueil</a> </h3>");
+            out.println("</body>");
+            out.println("</html>");
+        }else{
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Error connection</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Identifiant ou mot de passe erroné.</h1>");
+            out.println("<h2>Réessayé de vous <a href='login.html'>connecter</a> </h2>");
+            out.println("</body>");
+            out.println("</html>");
+
+        }
     }
 
     /**

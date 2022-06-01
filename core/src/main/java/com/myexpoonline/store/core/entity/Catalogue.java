@@ -12,6 +12,7 @@ import java.util.HashSet;
  */
 public class Catalogue {
     
+    // liste qui permet de cr
     public static HashSet<Work> listOfWorks = new HashSet();
     
 }
