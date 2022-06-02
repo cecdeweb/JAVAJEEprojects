@@ -6,3 +6,6 @@ JAVA JAKARTA JEE with Netbeans
 - ex4 create back office
 - ex5 show list CatalogueServlet
 - ex6 create a product page
+- ex7 add a product to the catalog via the backoffice
+- ex8 management of the user connection on the backoffice
+- ex9 get user name in session
